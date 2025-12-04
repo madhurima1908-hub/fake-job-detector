@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake Job Detector</title>
+</head>
+<body>
+    <h1>Fake Job Posting Detector</h1>
+
+    <form method="POST">
+        <label>Job Title:</label><br>
+        <input type="text" name="title" required><br><br>
+
+        <label>Job Location:</label><br>
+        <input type="text" name="location" required><br><br>
+
+        <label>Job Description:</label><br>
+        <textarea name="description" required></textarea><br><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+        <h2>Prediction: {{ prediction }}</h2>
+    {% endif %}
+</body>
+</html>
