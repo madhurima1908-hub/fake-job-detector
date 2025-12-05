@@ -1,30 +1,29 @@
 from flask import Flask, render_template, request
 import joblib
-import numpy as np
 import pandas as pd
-import os
+import numpy as np
 
 app = Flask(__name__)
 
-# Path to joblib (ensure file is at repo root)
-BUNDLE_PATH = os.path.join(os.path.dirname(__file__), "fake_job_pipeline.joblib")
-bundle = joblib.load(BUNDLE_PATH)
-
-tfidf = bundle.get("tfidf")
+# Load the pipeline bundle
+bundle = joblib.load("fake_job_pipeline.joblib")
+model = bundle["model"]
+tfidf = bundle["tfidf"]
 ohe = bundle.get("ohe")
 num_cols = bundle.get("num_cols", [])
 cat_cols = bundle.get("cat_cols", [])
-model = bundle.get("model")
 
 @app.route("/", methods=["GET", "POST"])
 def home():
     prediction = None
+    
     if request.method == "POST":
+        # Get input from form
         title = request.form.get("title", "")
         location = request.form.get("location", "")
         description = request.form.get("description", "")
 
-        # Build a 1-row dataframe matching training-time columns
+        # Build a 1-row dataframe with same structure as training
         df = pd.DataFrame([{
             "title": title,
             "location": location,
@@ -40,25 +39,23 @@ def home():
             "has_questions": 0
         }])
 
-        # Combine text exactly as training
-        df["all_text"] = df["title"].astype(str) + " " + df["company_profile"].astype(str) + " " + df["description"].astype(str)
-
-        # Transform text with tfidf
+        # Combine text for TF-IDF
+        df["all_text"] = df["title"] + " " + df["company_profile"] + " " + df["description"]
         X_text = tfidf.transform(df["all_text"]).toarray()
 
-        # Transform categorical if present
+        # Transform categorical features
         if ohe is not None and len(cat_cols) > 0:
             X_cat = ohe.transform(df[cat_cols])
         else:
             X_cat = np.zeros((1, 0))
 
-        # Numeric
+        # Numeric features
         if len(num_cols) > 0:
             X_num = df[num_cols].values.astype(float)
         else:
             X_num = np.zeros((1, 0))
 
-        # Combine to final feature vector
+        # Combine all features
         X = np.hstack([X_text, X_cat, X_num])
 
         # Predict
