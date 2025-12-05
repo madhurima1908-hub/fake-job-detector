@@ -1,26 +1,199 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Fake Job Detector</title>
+    <meta charset="UTF-8">
+    <title>Fake Job Posting Detector</title>
+
+    <!-- Premium serif font -->
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/the-seasons">
+
+    <style>
+        body {
+            margin: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+            background-color: #f2e7da; 
+            font-family: 'The Seasons', serif;
+            color: #3b2f2f;
+        }
+
+        /* ---- TOP NAV ---- */
+        .navbar {
+            background-color: #5e0b0b;
+            padding: 16px 50px;
+            color: white;
+            font-size: 20px; /* reduced */
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        /* ---- HERO SECTION ---- */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 55px 80px;
+        }
+
+        .hero-text {
+            width: 52%;
+        }
+
+        .hero-title {
+            font-size: 45px;  /* reduced */
+            line-height: 1.15;
+            color: #4a2e2e;
+        }
+
+        .hero-sub {
+            margin-top: 12px;
+            font-size: 18px; /* reduced */
+            color: #6e5454;
+        }
+
+        .hero-img img {
+            width: 390px;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        /* ---- Decorative Separator ---- */
+        .separator {
+            width: 160px;
+            margin: 40px auto;
+            border-bottom: 3px solid #7d0e0e;
+            position: relative;
+        }
+
+        .separator::after {
+            content: "✦";
+            font-size: 20px;
+            color: #7d0e0e;
+            background: #f2e7da;
+            padding: 0 12px;
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* ---- FORM SECTION ---- */
+        .form-section {
+            max-width: 850px;
+            margin: 40px auto;
+            background: #fffdf9;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            border: 2px solid #e8d8c7;
+        }
+
+        label {
+            font-size: 20px; /* reduced */
+            font-weight: bold;
+            color: #4b2f2f;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            border: 2px solid #d8c4b3;
+            background: #faf5ef;
+            font-size: 16px;
+            transition: 0.3s;
+            font-family: 'The Seasons', serif;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #7d0e0e;
+            outline: none;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(125,14,14,0.3);
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        /* ---- BUTTON ---- */
+        button {
+            background-color: #7d0e0e;
+            color: white;
+            padding: 16px;
+            width: 100%;
+            border: none;
+            border-radius: 14px;
+            font-size: 20px; /* reduced */
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'The Seasons', serif;
+            box-shadow: 0 8px 25px rgba(125,14,14,0.35);
+        }
+
+        button:hover {
+            background-color: #5e0b0b;
+            transform: translateY(-2px);
+        }
+
+        /* ---- PREDICTION ---- */
+        .prediction-box {
+            margin-top: 30px;
+            padding: 25px;
+            background: #fff2f2;
+            border-left: 7px solid #7d0e0e;
+            color: #7d0e0e;
+            font-size: 22px; /* reduced */
+            border-radius: 15px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(125,14,14,0.2);
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Fake Job Posting Detector</h1>
 
-    <form method="POST">
-        <label>Job Title:</label><br>
-        <input type="text" name="title" required><br><br>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        FAKE JOB POSTING DETECTOR
+    </div>
 
-        <label>Job Location:</label><br>
-        <input type="text" name="location" required><br><br>
+    <!-- HERO SECTION -->
+    <div class="hero">
+        <div class="hero-text">
+            <h1 class="hero-title">Spot Fake Job Listings<br>With Confidence</h1>
+            <p class="hero-sub">
+                A refined and intelligent system designed to protect you from fraudulent job postings.
+                Enter job details and uncover authenticity instantly.
+            </p>
+        </div>
 
-        <label>Job Description:</label><br>
-        <textarea name="description" required></textarea><br><br>
+    <!-- FORM SECTION -->
+    <div class="form-section">
+        <form method="POST">
 
-        <button type="submit">Predict</button>
-    </form>
+            <label>JOB TITLE</label>
+            <input type="text" name="title" required>
 
-    {% if prediction %}
-        <h2>Prediction: {{ prediction }}</h2>
-    {% endif %}
+            <label>JOB LOCATION</label>
+            <input type="text" name="location" required>
+
+            <label>JOB DESCRIPTION</label>
+            <textarea name="description" required></textarea>
+
+            <button type="submit">PREDICT</button>
+        </form>
+
+        {% if prediction %}
+            <div class="prediction-box">
+                {{ prediction }}
+            </div>
+        {% endif %}
+    </div>
+
 </body>
 </html>
